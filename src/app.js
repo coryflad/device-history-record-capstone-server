@@ -12,6 +12,7 @@ const usersRouter = require("./users/users-router")
 
 const errorHandler = require('./middleware/error-handler')
 const pancakeRouter = require('./pancake/pancake-router')
+const createDhrRouter = require('./create-dhr/create-dhr-router')
 
 const app = express()
 
@@ -34,6 +35,7 @@ app.use("/api/auth", authRouter)
 app.use("/api/users", usersRouter) 
 
 app.use('/api/pancakes', pancakeRouter)
+app.use('/api/create-dhr', createDhrRouter)
 
 app.use(errorHandler)
 
