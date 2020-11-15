@@ -8,8 +8,13 @@ const jsonParser = express.json()
 
 const serializeCreateDhr = createDhr => ({
     id: createDhr.id,
-    title: xss(createDhr.title),
-    completed: createDhr.completed
+    date_created: xss(createDhr.date_created),
+    device_name: xss(createDhr.device_name),
+    device_sn: xss(createDhr.device_sn),
+    dmr_no: xss(createDhr.dmr_no),
+    document_id: createDhr.document_id,
+    wo_no: createDhr.wo_no,
+    user_id: createDhr.currentUserId
 })
 
 createDhrRouter
@@ -29,11 +34,10 @@ createDhrRouter
 
         //take the input from the user
         const {
-            title,
-            completed = false
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
         } = req.body
         const newCreateDhr = {
-            title
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, user_id: currentUserId
         }
 
         //validate the input
@@ -49,9 +53,9 @@ createDhrRouter
 
         //save the input in the db
         CreateDhrService.insertCreateDhr(
-                req.app.get('db'),
-                newCreateDhr
-            )
+            req.app.get('db'),
+            newCreateDhr
+        )
             .then(createDhr => {
                 res
                     .status(201)
@@ -72,9 +76,9 @@ createDhrRouter
             })
         }
         CreateDhrService.getCreateDhrById(
-                req.app.get('db'),
-                req.params.createDhr_id
-            )
+            req.app.get('db'),
+            req.params.createDhr_id
+        )
             .then(createDhr => {
                 if (!createDhr) {
                     return res.status(404).json({
@@ -96,12 +100,10 @@ createDhrRouter
     .patch(jsonParser, (req, res, next) => {
         //take the input from the user
         const {
-            title,
-            completed
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
         } = req.body
         const createDhrToUpdate = {
-            title,
-            completed
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
         }
 
         //validate the input
@@ -115,10 +117,10 @@ createDhrRouter
 
         //save the input in the db
         CreateDhrService.updateCreateDhr(
-                req.app.get('db'),
-                req.params.createDhr_id,
-                createDhrToUpdate
-            )
+            req.app.get('db'),
+            req.params.createDhr_id,
+            createDhrToUpdate
+        )
             .then(updatedCreateDhr => {
                 res.status(200).json(serializeCreateDhr(updatedCreateDhr[0]))
             })
@@ -128,9 +130,9 @@ createDhrRouter
     //relevant
     .delete((req, res, next) => {
         CreateDhrService.deleteCreateDhr(
-                req.app.get('db'),
-                req.params.createDhr_id
-            )
+            req.app.get('db'),
+            req.params.createDhr_id
+        )
             .then(numRowsAffected => {
                 res.status(204).end()
             })
