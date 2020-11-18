@@ -49,8 +49,6 @@ createDhrRouter
                     }
                 })
 
-        newCreateDhr.completed = completed;
-
         //save the input in the db
         CreateDhrService.insertCreateDhr(
             req.app.get('db'),
@@ -103,7 +101,7 @@ createDhrRouter
             date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
         } = req.body
         const createDhrToUpdate = {
-            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, user_id: currentUserId
         }
 
         //validate the input

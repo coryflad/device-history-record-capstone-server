@@ -4,22 +4,23 @@ const CreateDhrService = {
     getCreateDhrs(db) {
         return db
             .select('*')
-            .from('createDhr')
+            .from('dhr')
     },
 
     getCreateDhrById(db, createDhr_id) {
         return db
             .select('*')
-            .from('createDhr')
-            .where('createDhr.id', createDhr_id)
+            .from('dhr')
+            .where('dhr.id', createDhr_id)
             .first()
     },
 
     //relevant
     insertCreateDhr(db, newCreateDhr) {
+        console.log(newCreateDhr, 'string for console log')
         return db
             .insert(newCreateDhr)
-            .into('createDhr')
+            .into('dhr')
             .returning('*')
             .then(rows => {
                 return rows[0]
@@ -28,7 +29,7 @@ const CreateDhrService = {
 
     //relevant
     updateCreateDhr(db, createDhr_id, newCreateDhr) {
-        return db('createDhr')
+        return db('dhr')
             .update(newCreateDhr, returning = true)
             .where({
                 id: createDhr_id
@@ -38,7 +39,7 @@ const CreateDhrService = {
 
     //relevant
     deleteCreateDhr(db, createDhr_id) {
-        return db('createDhr')
+        return db('dhr')
             .delete()
             .where({
                 'id': createDhr_id
