@@ -14,6 +14,10 @@ const serializeCreateDhr = createDhr => ({
     dmr_no: xss(createDhr.dmr_no),
     document_id: createDhr.document_id,
     wo_no: createDhr.wo_no,
+    network_analyzer: createDhr.network_analyzer,
+    power_supply: createDhr.power_supply,
+    s21_probe: createDhr.s21_probe,
+    calibration_standard: createDhr.calibration_standard,
     user_id: createDhr.currentUserId
 })
 
@@ -34,10 +38,10 @@ createDhrRouter
 
         //take the input from the user
         const {
-            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId, network_analyzer = 0, power_supply = 0, s21_probe = 0, calibration_standard = 0
         } = req.body
         const newCreateDhr = {
-            date_created, device_name, device_sn, dmr_no, document_id, wo_no, user_id: currentUserId
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, user_id: currentUserId, network_analyzer, power_supply, s21_probe, calibration_standard
         }
 
         //validate the input
@@ -98,10 +102,10 @@ createDhrRouter
     .patch(jsonParser, (req, res, next) => {
         //take the input from the user
         const {
-            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, currentUserId, network_analyzer = 0, power_supply = 0, s21_probe = 0, calibration_standard = 0
         } = req.body
         const createDhrToUpdate = {
-            date_created, device_name, device_sn, dmr_no, document_id, wo_no, user_id: currentUserId
+            date_created, device_name, device_sn, dmr_no, document_id, wo_no, user_id: currentUserId, network_analyzer, power_supply, s21_probe, calibration_standard
         }
 
         //validate the input
@@ -109,7 +113,7 @@ createDhrRouter
         if (numberOfValues === 0)
             return res.status(400).json({
                 error: {
-                    message: `Request body must content either 'title' or 'completed'`
+                    message: `Request body is missing fields`
                 }
             })
 
